@@ -11,12 +11,12 @@
 //   預設使用 gemini-2.0-flash(免費 tier,延遲低、品質夠)
 //   想換更強模型可改 MODEL 常數,但要注意免費額度。
 
-const MODEL = 'gemini-2.0-flash';
+const MODEL = 'gemini-3.5-flash';
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 
 // 允許呼叫此 Worker 的來源(部署後請替換成你的 GitHub Pages URL 與自訂網域)
 const ALLOWED_ORIGINS = [
-  'https://yu-chiang.github.io',          // TODO: 改成你的 GitHub Pages URL
+  'https://yu-chiang-wang.github.io',
   'http://localhost:8000',
   'http://127.0.0.1:8000',
   'http://localhost:5500',
