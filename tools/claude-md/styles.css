@@ -226,6 +226,73 @@
   50% { opacity: 0; }
 }
 
+/* ===== Chip 多選 ===== */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 13px;
+  border: 1px solid var(--c-border);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-text-soft);
+  background: var(--c-soft-tint);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.chip input[type="checkbox"] { display: none; }
+
+.chip:hover {
+  border-color: var(--c-blue);
+  color: var(--c-blue);
+}
+
+.chip:has(input:checked) {
+  background: var(--c-navy);
+  border-color: var(--c-navy);
+  color: var(--c-bg);
+}
+
+.chip-other:has(input:checked) {
+  background: var(--c-blue);
+  border-color: var(--c-blue);
+  color: #fff;
+}
+
+.chip-custom-input {
+  display: none;
+  width: 100%;
+  margin-top: 8px;
+  padding: 9px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--c-bg);
+  color: var(--c-navy);
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  box-sizing: border-box;
+}
+
+.chip-custom-input::placeholder { color: #95a3b3; }
+
+.chip-custom-input:focus {
+  outline: none;
+  background: var(--c-card);
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 4px rgba(69, 123, 157, 0.15);
+}
+
+.chip-custom-input.visible { display: block; }
+
 /* ===== Responsive ===== */
 @media (max-width: 900px) {
   .form-layout {

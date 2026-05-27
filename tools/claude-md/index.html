@@ -72,15 +72,45 @@
           <input type="text" id="description" required placeholder="例:親手打造的 AI 小工具集">
         </label>
 
-        <label class="field">
+        <div class="field">
           <span class="field-label">主要程式語言</span>
-          <input type="text" id="languages" placeholder="例:TypeScript, Python(逗號分隔)">
-        </label>
+          <div class="chip-group" id="languages-chips">
+            <label class="chip"><input type="checkbox" value="TypeScript">TypeScript</label>
+            <label class="chip"><input type="checkbox" value="JavaScript">JavaScript</label>
+            <label class="chip"><input type="checkbox" value="Python">Python</label>
+            <label class="chip"><input type="checkbox" value="Go">Go</label>
+            <label class="chip"><input type="checkbox" value="Rust">Rust</label>
+            <label class="chip"><input type="checkbox" value="Java">Java</label>
+            <label class="chip"><input type="checkbox" value="Swift">Swift</label>
+            <label class="chip"><input type="checkbox" value="Kotlin">Kotlin</label>
+            <label class="chip"><input type="checkbox" value="Ruby">Ruby</label>
+            <label class="chip"><input type="checkbox" value="PHP">PHP</label>
+            <label class="chip"><input type="checkbox" value="C/C++">C/C++</label>
+            <label class="chip chip-other"><input type="checkbox" id="lang-other-cb" value="__other__">其他</label>
+          </div>
+          <input type="text" id="languages-custom" class="chip-custom-input" placeholder="自行填寫,逗號分隔">
+        </div>
 
-        <label class="field">
+        <div class="field">
           <span class="field-label">框架 / 主要工具</span>
-          <input type="text" id="frameworks" placeholder="例:Next.js, Tailwind, Prisma">
-        </label>
+          <div class="chip-group" id="frameworks-chips">
+            <label class="chip"><input type="checkbox" value="React">React</label>
+            <label class="chip"><input type="checkbox" value="Next.js">Next.js</label>
+            <label class="chip"><input type="checkbox" value="Vue">Vue</label>
+            <label class="chip"><input type="checkbox" value="Nuxt">Nuxt</label>
+            <label class="chip"><input type="checkbox" value="Angular">Angular</label>
+            <label class="chip"><input type="checkbox" value="Svelte">Svelte</label>
+            <label class="chip"><input type="checkbox" value="Express">Express</label>
+            <label class="chip"><input type="checkbox" value="FastAPI">FastAPI</label>
+            <label class="chip"><input type="checkbox" value="Django">Django</label>
+            <label class="chip"><input type="checkbox" value="Rails">Rails</label>
+            <label class="chip"><input type="checkbox" value="Tailwind CSS">Tailwind CSS</label>
+            <label class="chip"><input type="checkbox" value="Prisma">Prisma</label>
+            <label class="chip"><input type="checkbox" value="GraphQL">GraphQL</label>
+            <label class="chip chip-other"><input type="checkbox" id="fw-other-cb" value="__other__">其他</label>
+          </div>
+          <input type="text" id="frameworks-custom" class="chip-custom-input" placeholder="自行填寫,逗號分隔">
+        </div>
 
         <label class="field">
           <span class="field-label">常用指令</span>

@@ -2,7 +2,7 @@
 // API endpoint:Worker 部署完成後改成你的 Worker URL,例如:
 //   https://claude-md.<your-subdomain>.workers.dev
 // 本機開發時可指向 wrangler dev 的位址(預設 http://127.0.0.1:8787)。
-const API_ENDPOINT = 'https://claude-md.example.workers.dev';
+const API_ENDPOINT = 'https://claude-md.jonathanwang1103.workers.dev';
 
 const form = document.getElementById('claude-md-form');
 const result = document.getElementById('result');
@@ -15,13 +15,30 @@ const parseReadmeBtn = document.getElementById('parse-readme');
 const fields = {
   projectName: document.getElementById('projectName'),
   description: document.getElementById('description'),
-  languages: document.getElementById('languages'),
-  frameworks: document.getElementById('frameworks'),
   commands: document.getElementById('commands'),
   conventions: document.getElementById('conventions'),
   aiNotes: document.getElementById('aiNotes'),
   donts: document.getElementById('donts'),
 };
+
+function getChipValues(groupId, customId) {
+  const checked = [...document.querySelectorAll(`#${groupId} input:checked`)]
+    .map(cb => cb.value)
+    .filter(v => v !== '__other__');
+  const custom = document.getElementById(customId).value.trim();
+  if (custom) custom.split(',').map(s => s.trim()).filter(Boolean).forEach(v => checked.push(v));
+  return checked.join(', ');
+}
+
+function setupOtherChip(cbId, inputId) {
+  document.getElementById(cbId).addEventListener('change', function () {
+    const input = document.getElementById(inputId);
+    input.classList.toggle('visible', this.checked);
+    if (!this.checked) input.value = '';
+  });
+}
+setupOtherChip('lang-other-cb', 'languages-custom');
+setupOtherChip('fw-other-cb', 'frameworks-custom');
 
 let lastMarkdown = '';
 
@@ -39,8 +56,8 @@ form.addEventListener('submit', async (e) => {
   const payload = {
     projectName,
     description,
-    languages: fields.languages.value.trim(),
-    frameworks: fields.frameworks.value.trim(),
+    languages: getChipValues('languages-chips', 'languages-custom'),
+    frameworks: getChipValues('frameworks-chips', 'frameworks-custom'),
     commands: fields.commands.value.trim(),
     conventions: fields.conventions.value.trim(),
     aiNotes: fields.aiNotes.value.trim(),

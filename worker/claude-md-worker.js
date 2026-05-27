@@ -21,6 +21,7 @@ const ALLOWED_ORIGINS = [
   'http://127.0.0.1:8000',
   'http://localhost:5500',
   'http://127.0.0.1:5500',
+  'null',                                  // file:// 本機直開
 ];
 
 // 簡單的長度限制,避免被亂送爆量請求
