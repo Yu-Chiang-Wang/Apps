@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ===== SEO 基礎 ===== -->
+<title>Yu-Chiang Apps — 親手打造的 AI 小工具集</title>
+<meta name="description" content="一系列串接 AI API 的實用小工具,從會計表格產生器、CLAUDE.md 建立工具,到各種 Prompt 工程應用——每個工具都聚焦解決一個真實的工作場景。">
+<meta name="keywords" content="AI 工具, Prompt 工程, Claude API, CLAUDE.md 產生器, 會計表格, 自動化工具, 串接 API">
+<meta name="author" content="Yu-Chiang Wang">
+<meta name="robots" content="index, follow">
+<!-- TODO: 部署後改成實際網址,例如 https://<github-username>.github.io/Yu-Chiang_apps/ 或自訂網域 -->
+<link rel="canonical" href="https://example.com/">
+
+<!-- ===== Open Graph ===== -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Yu-Chiang Apps — 親手打造的 AI 小工具集">
+<meta property="og:description" content="串接 AI API 解決日常工作場景,從會計表格、CLAUDE.md 產生器到 Prompt 工程實驗,每個工具都聚焦在一個具體任務。">
+<meta property="og:url" content="https://example.com/">
+<meta property="og:image" content="https://example.com/og-image.png">
+<meta property="og:locale" content="zh_TW">
+
+<!-- ===== Twitter Card ===== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Yu-Chiang Apps — 親手打造的 AI 小工具集">
+<meta name="twitter:description" content="串接 AI API 解決日常工作場景的實用小工具。">
+<meta name="twitter:image" content="https://example.com/og-image.png">
+
+<!-- ===== Favicon (inline SVG,之後可換成你的主視覺) ===== -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231d3557'/><text x='50' y='70' font-size='62' text-anchor='middle' fill='%23f1faee' font-family='system-ui' font-weight='800'>Y</text></svg>">
+
+<!-- ===== JSON-LD Structured Data ===== -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Yu-Chiang Apps",
+  "url": "https://example.com/",
+  "description": "親手打造的 AI 小工具集 — 串接 API 解決真實工作場景",
+  "inLanguage": "zh-Hant",
+  "author": {
+    "@type": "Person",
+    "name": "Yu-Chiang Wang",
+    "email": "jonathanwang1103@gmail.com"
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://example.com/?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="/" class="logo">
+      <span class="logo-mark">Y</span>
+      <span>Yu-Chiang Apps</span>
+    </a>
+    <nav class="nav-links">
+      <a href="#tools">所有工具</a>
+      <a href="#about">關於</a>
+      <a href="mailto:jonathanwang1103@gmail.com">聯絡</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero container">
+    <span class="hero-eyebrow">PROMPT ENGINEERING · AI TOOLKIT</span>
+    <h1>讓 AI 處理那些<br><span class="accent">重複又煩人</span>的工作</h1>
+    <p>一系列親手打造、串接 AI API 的實用小工具。從會計表格、CLAUDE.md 產生器,到各種 Prompt 工程實驗,每個工具都只解決一件具體的事——但解決得很好。</p>
+    <div class="search-wrap">
+      <input type="search" id="search" placeholder="搜尋工具名稱、用途或分類..." aria-label="搜尋工具">
+    </div>
+  </section>
+
+  <section id="tools" class="container">
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-category="all">全部</button>
+      <button class="filter-btn" data-category="document">文件產生</button>
+      <button class="filter-btn" data-category="prompt">Prompt 工程</button>
+      <button class="filter-btn" data-category="data">表格與資料</button>
+      <button class="filter-btn" data-category="dev">開發者工具</button>
+    </div>
+
+    <div class="tools-grid" id="grid">
+
+      <!-- ====================================================== -->
+      <!-- ↓ 工具卡片區:之後要新增工具時,複製一個 <article> 即可 ↓ -->
+      <!-- ====================================================== -->
+
+      <article class="tool-card" data-category="data" data-keywords="會計 表格 試算表 excel 記帳 財務">
+        <span class="badge badge-soon">籌備中</span>
+        <div class="tool-header">
+          <div class="tool-icon">📊</div>
+          <div>
+            <h3 class="tool-name">會計表格產生器</h3>
+            <p class="tool-category">表格與資料</p>
+          </div>
+        </div>
+        <p class="tool-desc">輸入需求,自動生成符合會計格式的試算表結構——含科目、公式、分類,直接下載即用。</p>
+        <div class="tool-tags">
+          <span class="tool-tag">會計</span>
+          <span class="tool-tag">Excel</span>
+          <span class="tool-tag">自動化</span>
+        </div>
+        <a class="tool-link disabled" href="#" aria-disabled="true">即將推出</a>
+      </article>
+
+      <article class="tool-card" data-category="document" data-keywords="claude.md claude code 文件 產生器 ai 助手 規範">
+        <span class="badge badge-soon">籌備中</span>
+        <div class="tool-header">
+          <div class="tool-icon">📄</div>
+          <div>
+            <h3 class="tool-name">CLAUDE.md 產生器</h3>
+            <p class="tool-category">文件產生</p>
+          </div>
+        </div>
+        <p class="tool-desc">針對你的專案自動生成 Claude Code 的 CLAUDE.md 規範文件,讓 AI 助手更懂你的程式碼風格與專案脈絡。</p>
+        <div class="tool-tags">
+          <span class="tool-tag">Claude Code</span>
+          <span class="tool-tag">文件</span>
+          <span class="tool-tag">開發</span>
+        </div>
+        <a class="tool-link disabled" href="#" aria-disabled="true">即將推出</a>
+      </article>
+
+      <!-- ====================================================== -->
+      <!-- ↑ 工具卡片區結束 ↑ -->
+      <!-- ====================================================== -->
+
+    </div>
+  </section>
+</main>
+
+<footer id="about">
+  <div class="container">
+    <p>© 2026 Yu-Chiang Apps · 由 <a href="mailto:jonathanwang1103@gmail.com">Yu-Chiang Wang</a> 設計與維護</p>
+  </div>
+</footer>
+
+<script>
+  // ===== 搜尋 + 分類篩選 =====
+  const grid = document.getElementById('grid');
+  const search = document.getElementById('search');
+  const filters = document.getElementById('filters');
+  let activeCategory = 'all';
+
+  function applyFilter() {
+    const q = search.value.trim().toLowerCase();
+    const cards = grid.querySelectorAll('.tool-card');
+    let visible = 0;
+    cards.forEach(card => {
+      const cat = card.dataset.category;
+      const keywords = (card.dataset.keywords || '') + ' ' +
+                       card.querySelector('.tool-name').textContent + ' ' +
+                       card.querySelector('.tool-desc').textContent;
+      const matchCat = activeCategory === 'all' || cat === activeCategory;
+      const matchSearch = !q || keywords.toLowerCase().includes(q);
+      const show = matchCat && matchSearch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    let empty = grid.querySelector('.no-results');
+    if (visible === 0) {
+      if (!empty) {
+        empty = document.createElement('div');
+        empty.className = 'no-results';
+        empty.textContent = '找不到符合的工具 😅';
+        grid.appendChild(empty);
+      }
+    } else if (empty) {
+      empty.remove();
+    }
+  }
+
+  search.addEventListener('input', applyFilter);
+  filters.addEventListener('click', e => {
+    if (!e.target.matches('.filter-btn')) return;
+    filters.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    e.target.classList.add('active');
+    activeCategory = e.target.dataset.category;
+    applyFilter();
+  });
+</script>
+</body>
+</html>
