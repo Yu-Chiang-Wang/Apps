@@ -1,0 +1,245 @@
+/* ===== CLAUDE.md 產生器 工具頁樣式 =====
+   依賴根目錄 styles.css(--c-* CSS 變數)
+*/
+
+/* ===== Tool Hero ===== */
+.tool-hero {
+  padding: 56px 0 32px;
+  max-width: 800px;
+}
+.back-link {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--c-text-soft);
+  margin-bottom: 18px;
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--c-red); }
+.tool-hero h1 {
+  font-size: clamp(30px, 4.5vw, 44px);
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--c-navy);
+}
+.tool-hero h1 .accent { color: var(--c-red); }
+.tool-subtitle {
+  font-size: 16px;
+  color: var(--c-text-soft);
+  margin: 0;
+  max-width: 640px;
+}
+
+/* ===== Tool Body ===== */
+.tool-body { padding-bottom: 96px; }
+
+.form-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+/* ===== 表單欄位 ===== */
+.form-fields {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-navy);
+  letter-spacing: 0.01em;
+}
+.field-label em {
+  color: var(--c-red);
+  font-style: normal;
+  margin-left: 2px;
+}
+
+.field input[type="text"],
+.field textarea,
+.readme-helper textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--c-bg);
+  color: var(--c-navy);
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  resize: vertical;
+  line-height: 1.55;
+}
+.field input[type="text"]::placeholder,
+.field textarea::placeholder,
+.readme-helper textarea::placeholder {
+  color: #95a3b3;
+}
+.field input[type="text"]:focus,
+.field textarea:focus,
+.readme-helper textarea:focus {
+  outline: none;
+  background: var(--c-card);
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 4px rgba(69, 123, 157, 0.15);
+}
+
+/* ===== README helper(可展開) ===== */
+.readme-helper {
+  border: 1px dashed var(--c-border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: var(--c-soft-tint);
+}
+.readme-helper summary {
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-blue);
+  user-select: none;
+  list-style: none;
+}
+.readme-helper summary::-webkit-details-marker { display: none; }
+.readme-helper[open] summary { margin-bottom: 10px; }
+.readme-helper textarea {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 12.5px;
+  margin-bottom: 10px;
+}
+
+/* ===== Buttons ===== */
+.submit-btn {
+  margin-top: 4px;
+  padding: 13px 20px;
+  background: var(--c-navy);
+  color: var(--c-bg);
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, transform 0.05s;
+}
+.submit-btn:hover { background: #15273f; }
+.submit-btn:active { transform: translateY(1px); }
+.submit-btn:disabled {
+  background: #95a3b3;
+  cursor: not-allowed;
+}
+
+.ghost-btn {
+  padding: 7px 14px;
+  background: var(--c-card);
+  color: var(--c-text-soft);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.ghost-btn:hover:not(:disabled) {
+  border-color: var(--c-blue);
+  color: var(--c-blue);
+}
+.ghost-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.form-note {
+  font-size: 12px;
+  color: var(--c-text-soft);
+  margin: 0;
+  text-align: center;
+  line-height: 1.55;
+}
+
+/* ===== Result pane ===== */
+.result-pane {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 84px;
+  min-height: 480px;
+  max-height: calc(100vh - 100px);
+}
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.result-header h2 {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--c-navy);
+}
+.result-actions { display: flex; gap: 8px; }
+
+.result-output {
+  flex: 1;
+  margin: 0;
+  padding: 18px;
+  background: #0f1a2b;
+  color: #e7edf5;
+  border-radius: 10px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow-y: auto;
+  min-height: 360px;
+}
+.result-output .placeholder {
+  color: #6b7d96;
+  font-style: italic;
+}
+.result-output.is-error { color: #ffb4ba; }
+.result-output.is-loading::after {
+  content: "▎";
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .form-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .result-pane {
+    position: static;
+    max-height: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .tool-hero { padding: 36px 0 24px; }
+  .form-fields { padding: 20px; }
+  .result-pane { padding: 18px; }
+}

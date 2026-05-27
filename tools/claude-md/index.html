@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ===== SEO ===== -->
+<title>CLAUDE.md 產生器 — Yu-Chiang Apps</title>
+<meta name="description" content="填一份簡單表單,自動產生符合你專案脈絡的 CLAUDE.md——讓 Claude Code 一上來就懂你的程式碼風格、命名慣例與該避開的地雷。">
+<meta name="keywords" content="CLAUDE.md, Claude Code, 產生器, AI 助手, Prompt 工程, 專案規範">
+<meta name="author" content="Yu-Chiang Wang">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://example.com/tools/claude-md/">
+
+<!-- ===== Open Graph ===== -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="CLAUDE.md 產生器 — Yu-Chiang Apps">
+<meta property="og:description" content="填表單,生出讓 Claude Code 更懂你專案的 CLAUDE.md。">
+<meta property="og:url" content="https://example.com/tools/claude-md/">
+<meta property="og:image" content="https://example.com/og-image.png">
+<meta property="og:locale" content="zh_TW">
+
+<!-- ===== Favicon ===== -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231d3557'/><text x='50' y='70' font-size='62' text-anchor='middle' fill='%23f5f5f5' font-family='system-ui' font-weight='800'>Y</text></svg>">
+
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="../../" class="logo">
+      <span class="logo-mark">Y</span>
+      <span>Yu-Chiang Apps</span>
+    </a>
+    <nav class="nav-links">
+      <a href="../../#tools">所有工具</a>
+      <a href="../../#about">關於</a>
+      <a href="mailto:jonathanwang1103@gmail.com">聯絡</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="tool-hero container">
+    <a href="../../" class="back-link">← 回到所有工具</a>
+    <span class="hero-eyebrow">DOCUMENT · CLAUDE CODE</span>
+    <h1>CLAUDE.md <span class="accent">產生器</span></h1>
+    <p class="tool-subtitle">填一份簡單表單,生出讓 Claude Code 一進專案就懂規矩的 CLAUDE.md。不必每次都重新教 AI 你的命名慣例、目錄結構與地雷。</p>
+  </section>
+
+  <section class="container tool-body">
+    <form id="claude-md-form" class="form-layout" novalidate>
+
+      <!-- ===== 左側:表單 ===== -->
+      <div class="form-fields">
+
+        <details class="readme-helper">
+          <summary>已經有 README?貼上來自動填寫前兩欄 ↓</summary>
+          <textarea id="readme" rows="6" placeholder="貼上 README.md 內容,工具會嘗試抽出專案名稱與描述..."></textarea>
+          <button type="button" id="parse-readme" class="ghost-btn">解析並填入</button>
+        </details>
+
+        <label class="field">
+          <span class="field-label">專案名稱 <em>*</em></span>
+          <input type="text" id="projectName" required placeholder="例:Yu-Chiang Apps">
+        </label>
+
+        <label class="field">
+          <span class="field-label">一句話描述 <em>*</em></span>
+          <input type="text" id="description" required placeholder="例:親手打造的 AI 小工具集">
+        </label>
+
+        <label class="field">
+          <span class="field-label">主要程式語言</span>
+          <input type="text" id="languages" placeholder="例:TypeScript, Python(逗號分隔)">
+        </label>
+
+        <label class="field">
+          <span class="field-label">框架 / 主要工具</span>
+          <input type="text" id="frameworks" placeholder="例:Next.js, Tailwind, Prisma">
+        </label>
+
+        <label class="field">
+          <span class="field-label">常用指令</span>
+          <textarea id="commands" rows="4" placeholder="例:&#10;npm run dev — 啟動開發伺服器&#10;npm test — 跑測試&#10;npm run build — 打包"></textarea>
+        </label>
+
+        <label class="field">
+          <span class="field-label">程式碼風格與慣例</span>
+          <textarea id="conventions" rows="4" placeholder="例:&#10;- 2 空格縮排&#10;- 檔名 kebab-case&#10;- 不寫 default export"></textarea>
+        </label>
+
+        <label class="field">
+          <span class="field-label">給 AI 的指示</span>
+          <textarea id="aiNotes" rows="4" placeholder="例:&#10;- 回覆用繁體中文&#10;- 不要加 emoji&#10;- 優先 Tailwind class,而不是寫 CSS"></textarea>
+        </label>
+
+        <label class="field">
+          <span class="field-label">不要做的事</span>
+          <textarea id="donts" rows="3" placeholder="例:&#10;- 不要動 migrations/&#10;- 不要碰 legacy/ 底下任何檔案"></textarea>
+        </label>
+
+        <button type="submit" class="submit-btn" id="submit-btn">產生 CLAUDE.md</button>
+        <p class="form-note">使用免費的 Gemini 模型生成,等待約 5–15 秒。生成內容請自行檢視再使用。</p>
+      </div>
+
+      <!-- ===== 右側:結果 ===== -->
+      <aside class="result-pane">
+        <div class="result-header">
+          <h2>輸出結果</h2>
+          <div class="result-actions">
+            <button type="button" id="copy-btn" class="ghost-btn" disabled>複製</button>
+            <button type="button" id="download-btn" class="ghost-btn" disabled>下載 .md</button>
+          </div>
+        </div>
+        <pre id="result" class="result-output"><code class="placeholder">填好左邊表單,點下「產生 CLAUDE.md」,結果會出現在這裡。</code></pre>
+      </aside>
+
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Yu-Chiang Apps · 由 <a href="mailto:jonathanwang1103@gmail.com">Yu-Chiang Wang</a> 設計與維護</p>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+name = "claude-md"
+main = "claude-md-worker.js"
+compatibility_date = "2025-01-01"
+
+# 部署後 Worker URL 預設會是 https://claude-md.<your-subdomain>.workers.dev
+# 若要綁自訂網域(例:api.yu-chiang.dev),取消下方 routes 註解並改成你的網域
+# routes = [
+#   { pattern = "api.your-domain.com/*", custom_domain = true }
+# ]
+
+# GEMINI_API_KEY 不要寫在這裡——用 secret 設定:
+#   wrangler secret put GEMINI_API_KEY
