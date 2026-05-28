@@ -45,12 +45,17 @@ form.addEventListener('submit', async (e) => {
     return;
   }
 
+  const instructions = [...document.querySelectorAll('#instruction-chips input:checked')].map(cb => cb.value);
+  const restrictions = [...document.querySelectorAll('#restriction-chips input:checked')].map(cb => cb.value);
+
   const payload = {
     companyName,
     period,
     currency: document.getElementById('currency').value,
     industry: document.getElementById('industry').value.trim(),
     notes: document.getElementById('notes').value.trim(),
+    instructions,
+    restrictions,
     tableTypes,
   };
 

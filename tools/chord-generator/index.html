@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>隨機和弦生成器 — Yu-Chiang Apps</title>
+<meta name="description" content="選調性、選音階，每次隨機生成符合音樂理論的和弦進行。鎖定喜歡的和弦再重新生成其餘的，快速找到作曲靈感。">
+<meta name="keywords" content="和弦生成器, 隨機和弦, 和弦進行, chord progression, 音樂理論, 作曲工具">
+<meta name="author" content="Yu-Chiang Wang">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://yu-chiang-wang.github.io/Apps/tools/chord-generator/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="隨機和弦生成器 — Yu-Chiang Apps">
+<meta property="og:description" content="選調性與音階，隨機生成符合音樂理論的和弦進行，快速找到作曲靈感。">
+<meta property="og:url" content="https://yu-chiang-wang.github.io/Apps/tools/chord-generator/">
+<meta property="og:image" content="https://yu-chiang-wang.github.io/Apps/og-image.png">
+<meta property="og:locale" content="zh_TW">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231d3557'/><text x='50' y='70' font-size='62' text-anchor='middle' fill='%23f5f5f5' font-family='system-ui' font-weight='800'>Y</text></svg>">
+
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="../../" class="logo">
+      <span class="logo-mark">Y</span>
+      <span>Yu-Chiang Apps</span>
+    </a>
+    <nav class="nav-links">
+      <a href="../../#tools">所有工具</a>
+      <a href="../../#about">關於</a>
+      <a href="mailto:jonathanwang1103@gmail.com">聯絡</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="tool-hero container">
+    <a href="../../" class="back-link">← 回到所有工具</a>
+    <span class="hero-eyebrow">MUSIC · CHORD THEORY · RANDOM</span>
+    <h1>隨機<span class="accent">和弦生成器</span></h1>
+    <p class="tool-subtitle">選調性、選音階，每次隨機生成符合音樂理論的和弦進行。鎖定喜歡的和弦再重新生成其餘的——找到作曲靈感不再靠等待。</p>
+  </section>
+
+  <section class="container tool-body">
+
+    <!-- ── Controls ── -->
+    <div class="chord-controls card">
+      <div class="control-row">
+
+        <div class="control-group">
+          <span class="control-label">調性 Key</span>
+          <div class="select-wrap">
+            <select id="key-select">
+              <option value="0">C</option>
+              <option value="1">C# / Db</option>
+              <option value="2">D</option>
+              <option value="3">Eb / D#</option>
+              <option value="4">E</option>
+              <option value="5">F</option>
+              <option value="6">F# / Gb</option>
+              <option value="7">G</option>
+              <option value="8">Ab / G#</option>
+              <option value="9">A</option>
+              <option value="10">Bb / A#</option>
+              <option value="11">B</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">音階 Scale</span>
+          <div class="select-wrap">
+            <select id="scale-select">
+              <option value="major">大調 Major</option>
+              <option value="minor">小調 Minor</option>
+              <option value="dorian">Dorian 多利安</option>
+              <option value="mixo">Mixolydian 混合利底亞</option>
+              <option value="phrygian">Phrygian 弗里幾亞</option>
+              <option value="lydian">Lydian 呂底亞</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">和弦數</span>
+          <div class="segmented-control">
+            <button class="seg-btn" data-count="2">2</button>
+            <button class="seg-btn" data-count="3">3</button>
+            <button class="seg-btn active" data-count="4">4</button>
+            <button class="seg-btn" data-count="6">6</button>
+            <button class="seg-btn" data-count="8">8</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">七和弦 7th</span>
+          <label class="toggle-label">
+            <input type="checkbox" id="seventh-toggle">
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+
+      </div>
+
+      <div class="scale-info">
+        <span id="scale-name-display" class="scale-name-display">C 大調 Major</span>
+        <span id="scale-vibe" class="scale-vibe-badge">明亮、積極</span>
+        <span class="scale-notes-label">音階：</span>
+        <span id="scale-notes" class="scale-notes">C · D · E · F · G · A · B</span>
+      </div>
+    </div>
+
+    <!-- ── Generate Button ── -->
+    <div class="generate-row">
+      <button id="generate-btn" class="btn-generate">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10"/>
+          <polyline points="1 20 1 14 7 14"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+        隨機生成
+      </button>
+    </div>
+
+    <!-- ── Chord Display ── -->
+    <div id="chord-display" class="chord-progression"></div>
+
+    <!-- ── Progression Summary ── -->
+    <div class="progression-summary card">
+      <div class="progression-texts">
+        <div id="progression-text" class="progression-text"></div>
+        <div id="progression-roman" class="progression-roman"></div>
+      </div>
+      <button id="copy-btn" class="btn-copy">複製</button>
+    </div>
+
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Yu-Chiang Apps · <a href="../../">所有工具</a> · <a href="mailto:jonathanwang1103@gmail.com">Yu-Chiang Wang</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

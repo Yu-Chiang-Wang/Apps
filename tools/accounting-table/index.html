@@ -123,9 +123,29 @@
           </div>
         </div>
 
+        <div class="field">
+          <span class="field-label">給 AI 的指令</span>
+          <div class="chip-group" id="instruction-chips">
+            <label class="chip"><input type="checkbox" value="現金流量表使用間接法">現金流量表使用間接法</label>
+            <label class="chip"><input type="checkbox" value="詳細展開費用子科目">詳細展開費用子科目</label>
+            <label class="chip"><input type="checkbox" value="列出關聯方往來科目">列出關聯方往來科目</label>
+            <label class="chip"><input type="checkbox" value="加入備注欄位提示">加入備注欄位提示</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field-label">不要做的事</span>
+          <div class="chip-group" id="restriction-chips">
+            <label class="chip"><input type="checkbox" value="不要加虛構數字">不要加虛構數字</label>
+            <label class="chip"><input type="checkbox" value="不要縮減科目">不要縮減科目</label>
+            <label class="chip"><input type="checkbox" value="不要產生說明文字">不要產生說明文字</label>
+            <label class="chip"><input type="checkbox" value="不要翻譯成英文">不要翻譯成英文</label>
+          </div>
+        </div>
+
         <label class="field">
-          <span class="field-label">特殊需求</span>
-          <textarea id="notes" rows="3" placeholder="例:&#10;- 需要加入研發費用科目&#10;- 使用間接法編製現金流量表&#10;- 費用分類要符合電商產業慣例"></textarea>
+          <span class="field-label">其他需求</span>
+          <textarea id="notes" rows="3" placeholder="例:&#10;- 需要加入研發費用科目&#10;- 費用分類要符合電商產業慣例"></textarea>
         </label>
 
         <button type="submit" class="submit-btn" id="submit-btn">產生 Excel 表格</button>

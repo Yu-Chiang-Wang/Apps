@@ -31,6 +31,20 @@ const SYSTEM_ROLE = `\
 3. 科目命名符合台灣商業慣例，中文清楚易懂。
 4. 若客戶關鍵字與標準科目衝突，優先遵從客戶關鍵字。`;
 
+const VALID_INSTRUCTIONS = [
+  '現金流量表使用間接法',
+  '詳細展開費用子科目',
+  '列出關聯方往來科目',
+  '加入備注欄位提示',
+];
+
+const VALID_RESTRICTIONS = [
+  '不要加虛構數字',
+  '不要縮減科目',
+  '不要產生說明文字',
+  '不要翻譯成英文',
+];
+
 const TABLE_TYPE_NAMES = {
   income_statement: '損益表',
   balance_sheet: '資產負債表',
@@ -79,26 +93,44 @@ export default {
     const prompt = buildPrompt(data);
 
     try {
-      const geminiRes = await fetch(`${GEMINI_URL}?key=${env.GEMINI_API_KEY}`, {
+      const geminiPayload = JSON.stringify({
+        systemInstruction: {
+          parts: [{ text: SYSTEM_ROLE }],
+        },
+        contents: [{ role: 'user', parts: [{ text: prompt }] }],
+        generationConfig: {
+          temperature: 0.15,
+          topP: 0.9,
+          maxOutputTokens: 8192,
+          responseMimeType: 'application/json',
+        },
+      });
+
+      let geminiRes = await fetch(`${GEMINI_URL}?key=${env.GEMINI_API_KEY}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          systemInstruction: {
-            parts: [{ text: SYSTEM_ROLE }],
-          },
-          contents: [{ role: 'user', parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.15,
-            topP: 0.9,
-            maxOutputTokens: 8192,
-            responseMimeType: 'application/json',
-          },
-        }),
+        body: geminiPayload,
       });
+
+      // Retry once on 429 (rate limit) after a short delay
+      if (geminiRes.status === 429) {
+        await new Promise(r => setTimeout(r, 3000));
+        geminiRes = await fetch(`${GEMINI_URL}?key=${env.GEMINI_API_KEY}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: geminiPayload,
+        });
+      }
 
       if (!geminiRes.ok) {
         const errText = await geminiRes.text();
         console.error('Gemini error:', geminiRes.status, errText);
+        if (geminiRes.status === 429) {
+          return jsonResponse(
+            { error: 'AI 模型請求次數超過限制，請稍等 1 分鐘後再試。' },
+            429, cors
+          );
+        }
         return jsonResponse({ error: `AI 模型回傳錯誤 (${geminiRes.status})` }, 502, cors);
       }
 
@@ -169,6 +201,8 @@ function sanitize(input) {
     currency: str('currency', 10) || 'NTD',
     industry: str('industry', 100),
     notes: str('notes', 500),
+    instructions: arr('instructions', VALID_INSTRUCTIONS),
+    restrictions: arr('restrictions', VALID_RESTRICTIONS),
     tableTypes: arr('tableTypes', Object.keys(TABLE_TYPE_NAMES)),
   };
 }
@@ -177,20 +211,27 @@ function buildPrompt(d) {
   const tableNames = d.tableTypes.map(t => TABLE_TYPE_NAMES[t]).join('、');
   const c = d.currency;
 
-  // ── 使用者關鍵字區塊（這裡的內容直接影響 AI 輸出） ──
   const keywordBlock = [
     `公司名稱：${d.companyName}`,
     `會計期間：${d.period || '本期'}`,
     `幣別：${c}`,
     d.industry ? `產業類型（關鍵字）：${d.industry}` : '產業類型：一般企業',
-    d.notes    ? `特殊需求（關鍵字）：${d.notes}`    : null,
+    d.notes    ? `其他需求：${d.notes}` : null,
     `需要的報表：${tableNames}`,
   ].filter(Boolean).join('\n');
+
+  const instructionBlock = d.instructions?.length
+    ? `\n【必須執行的指令】\n${d.instructions.map(s => `- ${s}`).join('\n')}`
+    : '';
+
+  const restrictionBlock = d.restrictions?.length
+    ? `\n【嚴格禁止事項】\n${d.restrictions.map(s => `- ${s}`).join('\n')}`
+    : '';
 
   return `請依照以下客戶關鍵字生成會計表格 JSON 結構。
 
 【客戶關鍵字】
-${keywordBlock}
+${keywordBlock}${instructionBlock}${restrictionBlock}
 
 【輸出格式】
 回傳嚴格 JSON，無任何說明文字：

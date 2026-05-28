@@ -2,7 +2,7 @@
 
 親手打造的 AI 小工具集 — 串接 AI API 解決真實工作場景的小工具庫。
 維護者:Yu-Chiang Wang (jonathanwang1103@gmail.com)
-部署:GitHub Pages
+部署:GitHub Pages → https://yu-chiang-wang.github.io/Apps/
 
 ---
 
@@ -11,7 +11,7 @@
 不是導覽他人 SaaS 的目錄站,而是 **個人作品集 + 工具入口**:
 - 每個工具都聚焦解決一件具體的事
 - 主軸是 Prompt 工程與 AI API 串接
-- 範例工具:會計表格產生器、CLAUDE.md 產生器
+- 現有工具:會計表格產生器、CLAUDE.md 產生器
 
 ## 文案語氣
 
@@ -26,13 +26,12 @@
 
 ### Color Palette
 
-色票基底來源:[Coolors palette](https://coolors.co/palette/e63946-f1faee-a8dadc-457b9d-1d3557)
-原 `#f1faee`(米白)已替換為近零飽和的中性灰白 `#f5f5f5`,以求更乾淨的工程感。
+色票基底:[Coolors palette](https://coolors.co/palette/e63946-f1faee-a8dadc-457b9d-1d3557)
 
 | Token | Hex | 用途 |
 |---|---|---|
 | `--c-red`       | `#e63946` | 主強調:CTA、連結、hover 強調 |
-| `--c-bg`        | `#f5f5f5` | 頁面背景(near-zero saturation) |
+| `--c-bg`        | `#f5f5f5` | 頁面背景 |
 | `--c-sky`       | `#a8dadc` | 輔助點綴:卡片 hover 邊框 |
 | `--c-blue`      | `#457b9d` | 次強調:分類文字、focus ring |
 | `--c-navy`      | `#1d3557` | 主文字、Logo 底色、active 按鈕 |
@@ -43,7 +42,6 @@
 
 ### Typography
 
-系統字體優先,中文降級到 PingFang TC / Noto Sans TC / 微軟正黑體:
 ```
 -apple-system, BlinkMacSystemFont, "Segoe UI",
 "PingFang TC", "Noto Sans TC", "Microsoft JhengHei",
@@ -57,9 +55,8 @@ sans-serif
 
 ### Logo
 
-- 字母「Y」放在深藍 `#1d3557` 圓角方塊上,文字色為背景色 `#f5f5f5`
+- 字母「Y」放在深藍 `#1d3557` 圓角方塊上,文字色為 `#f5f5f5`
 - favicon 為同設計的 inline SVG(寫在 `<head>`)
-- 主視覺檔尚未提供,日後會替換
 
 ---
 
@@ -91,6 +88,7 @@ sans-serif
 - `prompt` — Prompt 工程
 - `data` — 表格與資料
 - `dev` — 開發者工具
+- `music` — 音樂創作
 
 **新增工具步驟**:複製現有 `<article>` → 改 5 個欄位(category / keywords / icon / 文字 / 連結)→ 籌備中保留 `badge-soon` + `tool-link disabled`,完成後改 `badge-new` + 真實 href。
 
@@ -100,13 +98,51 @@ sans-serif
 
 ```
 Yu-Chiang_apps/
-├── index.html        # 首頁(工具卡片清單寫在這)
-├── styles.css        # 所有樣式
-├── CLAUDE.md         # 本檔案
-└── (未來) tools/*    # 各工具子頁
+├── index.html                        # 首頁(工具卡片清單)
+├── styles.css                        # 首頁樣式
+├── CLAUDE.md
+├── .github/workflows/deploy.yml      # GitHub Pages 自動部署
+├── tools/
+│   ├── accounting-table/             # 會計表格產生器
+│   │   ├── index.html
+│   │   ├── styles.css
+│   │   └── app.js                    # 呼叫 accounting-table Worker
+│   ├── claude-md/                    # CLAUDE.md 產生器
+│   └── chord-generator/              # 隨機和弦生成器(純前端,無 Worker)
+│       ├── index.html
+│       ├── styles.css
+│       └── app.js                    # 呼叫 claude-md Worker
+└── worker/                           # Cloudflare Workers(API proxy)
+    ├── accounting-table-worker.js    # Gemini API proxy
+    ├── claude-md-worker.js           # Claude API proxy
+    ├── wrangler-accounting.toml
+    └── wrangler.toml
 ```
 
-**單一首頁原則**:工具卡片直接寫在 `index.html` 的 `#grid` 內,不靠 JS 動態載入,確保 Googlebot 直接讀到內容(SEO 考量)。
+**單一首頁原則**:工具卡片直接寫在 `index.html` 的 `#grid` 內,不靠 JS 動態載入(SEO 考量)。
+
+**工具子頁結構**:每個工具獨立目錄,包含 `index.html + styles.css + app.js`。app.js 負責 UI 互動與呼叫對應 Worker。
+
+---
+
+## Worker 架構
+
+前端不直接持有 API key,所有 AI API 呼叫透過 **Cloudflare Workers** 作為 proxy:
+
+| Worker | wrangler config | 後端 API |
+|---|---|---|
+| `accounting-table` | `wrangler-accounting.toml` | Google Gemini |
+| `claude-md` | `wrangler.toml` | Anthropic Claude |
+
+Worker 透過 `env.GEMINI_API_KEY` / `env.ANTHROPIC_API_KEY` 讀取 Secret(用 `wrangler secret put` 設定)。
+CORS 只允許 `https://yu-chiang-wang.github.io` 及 localhost。
+
+部署 Worker:
+```bash
+cd worker
+wrangler deploy --config wrangler-accounting.toml   # 會計表格
+wrangler deploy --config wrangler.toml              # CLAUDE.md
+```
 
 ---
 
@@ -114,7 +150,7 @@ Yu-Chiang_apps/
 
 每次改 `index.html` 都要同步:
 - `<title>`、`<meta name="description">`、Open Graph 三組 title/description/url
-- `canonical` URL 必須是 production 網址(目前 placeholder `https://example.com/`,部署後要改)
+- `canonical` 與 `og:url` 固定為 `https://yu-chiang-wang.github.io/Apps/`
 - 中文文案保持 `lang="zh-Hant"` + `og:locale="zh_TW"`
 - 新增工具若有獨立子頁,可考慮在 JSON-LD 中加入 `ItemList`
 
@@ -122,14 +158,7 @@ Yu-Chiang_apps/
 
 ## 部署
 
-GitHub Pages,從 main branch root 自動部署。
-- 部署後需要更新:`canonical`、`og:url`、`twitter:image`、JSON-LD 中的 `url`
-- 若使用自訂網域,在 root 放 `CNAME`
+GitHub Pages 從 main branch root 自動部署(push 即觸發)。
 - `og-image.png` 尚未製作,需要主視覺後再補
-
----
-
-## 聯絡
-
-- 維護者:Yu-Chiang Wang
-- Email:jonathanwang1103@gmail.com
+- Worker 需另外用 wrangler 手動部署(見上方 Worker 架構)
+- 若使用自訂網域,在 root 放 `CNAME` 並更新 canonical / og:url

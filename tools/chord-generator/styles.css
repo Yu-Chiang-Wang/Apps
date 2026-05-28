@@ -1,0 +1,366 @@
+/* ===== 隨機和弦生成器 工具頁樣式 =====
+   依賴根目錄 styles.css 的 --c-* CSS 變數
+*/
+
+/* ─── Tool Hero ─────────────────────────────────────────────────────────── */
+.tool-hero {
+  padding: 56px 0 32px;
+  max-width: 800px;
+}
+.back-link {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--c-text-soft);
+  margin-bottom: 18px;
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--c-red); }
+.tool-hero h1 {
+  font-size: clamp(30px, 4.5vw, 44px);
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--c-navy);
+}
+.tool-hero h1 .accent { color: var(--c-red); }
+.tool-subtitle {
+  font-size: 16px;
+  color: var(--c-text-soft);
+  margin: 0;
+  max-width: 600px;
+}
+.tool-body { padding-bottom: 96px; }
+
+/* ─── Card Utility ─────────────────────────────────────────────────────── */
+.card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+}
+
+/* ─── Controls ─────────────────────────────────────────────────────────── */
+.chord-controls {
+  padding: 24px 28px;
+  margin-bottom: 24px;
+}
+.control-row {
+  display: flex;
+  gap: 24px 32px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.control-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--c-text-soft);
+}
+
+/* select */
+.select-wrap {
+  position: relative;
+}
+.select-wrap::after {
+  content: "▾";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 12px;
+  color: var(--c-text-soft);
+}
+.select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 28px 8px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  background: var(--c-bg);
+  color: var(--c-navy);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.select-wrap select:focus {
+  outline: none;
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 3px rgba(69,123,157,0.15);
+}
+
+/* segmented control */
+.segmented-control {
+  display: flex;
+  gap: 3px;
+  background: var(--c-soft-tint);
+  padding: 3px;
+  border-radius: 9px;
+}
+.seg-btn {
+  padding: 6px 13px;
+  border: none;
+  background: transparent;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--c-text-soft);
+  transition: all 0.15s;
+  font-family: inherit;
+  line-height: 1;
+}
+.seg-btn.active {
+  background: var(--c-navy);
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+.seg-btn:hover:not(.active) {
+  color: var(--c-navy);
+  background: var(--c-border);
+}
+
+/* toggle switch */
+.toggle-label {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  height: 34px;
+}
+.toggle-label input { display: none; }
+.toggle-track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--c-border);
+  border-radius: 12px;
+  transition: background 0.2s;
+}
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+  transition: transform 0.2s;
+}
+.toggle-label input:checked + .toggle-track { background: var(--c-navy); }
+.toggle-label input:checked + .toggle-track .toggle-thumb { transform: translateX(20px); }
+
+/* scale info bar */
+.scale-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--c-border);
+  font-size: 13px;
+}
+.scale-name-display {
+  font-weight: 700;
+  color: var(--c-navy);
+}
+.scale-vibe-badge {
+  background: rgba(230,57,70,0.08);
+  color: var(--c-red);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+.scale-notes-label { color: var(--c-text-soft); }
+.scale-notes {
+  color: var(--c-blue);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* ─── Generate Button ───────────────────────────────────────────────────── */
+.generate-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.btn-generate {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 36px;
+  background: var(--c-navy);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+}
+.btn-generate:hover {
+  background: var(--c-red);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230,57,70,0.3);
+}
+.btn-generate:active { transform: translateY(0); }
+.btn-generate svg { flex-shrink: 0; }
+@keyframes spin-once { to { transform: rotate(360deg); } }
+.btn-generate.spinning svg { animation: spin-once 0.45s ease; }
+
+/* ─── Chord Progression ─────────────────────────────────────────────────── */
+.chord-progression {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 24px;
+  min-height: 170px;
+}
+
+/* Chord Card */
+.chord-card {
+  position: relative;
+  background: var(--c-card);
+  border: 2px solid var(--c-border);
+  border-radius: 16px;
+  padding: 20px 16px 14px;
+  min-width: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  animation: cardIn 0.25s ease both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.chord-card:hover {
+  border-color: var(--c-sky);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+}
+.chord-card.locked {
+  border-color: var(--c-blue);
+  background: #eef4f8;
+}
+
+.lock-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--c-text-soft);
+  border-radius: 5px;
+  line-height: 0;
+  transition: color 0.15s, background 0.15s;
+}
+.lock-btn:hover { color: var(--c-blue); background: var(--c-soft-tint); }
+.chord-card.locked .lock-btn { color: var(--c-blue); }
+
+.chord-roman {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-text-soft);
+}
+.chord-symbol {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--c-navy);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+.chord-piano { line-height: 0; }
+.chord-notes {
+  font-size: 10px;
+  color: var(--c-text-soft);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-align: center;
+  white-space: nowrap;
+}
+.chord-inv {
+  font-size: 10px;
+  color: var(--c-blue);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+/* arrow between cards */
+.chord-arrow {
+  font-size: 18px;
+  color: var(--c-border);
+  font-weight: 400;
+  flex-shrink: 0;
+  user-select: none;
+  margin: 0 -2px;
+}
+
+/* ─── Progression Summary ───────────────────────────────────────────────── */
+.progression-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  margin-bottom: 40px;
+}
+.progression-texts { display: flex; flex-direction: column; gap: 4px; }
+.progression-text {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-navy);
+  word-break: break-word;
+}
+.progression-roman {
+  font-size: 12px;
+  color: var(--c-text-soft);
+  font-style: italic;
+  letter-spacing: 0.03em;
+}
+.btn-copy {
+  padding: 8px 20px;
+  background: var(--c-soft-tint);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--c-navy);
+  transition: all 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+.btn-copy:hover { background: var(--c-navy); color: #fff; border-color: var(--c-navy); }
+.btn-copy.copied { background: #16a34a; color: #fff; border-color: #16a34a; }
+
+/* ─── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .chord-progression { gap: 6px; }
+  .chord-card { min-width: 100px; padding: 16px 10px 12px; }
+  .chord-symbol { font-size: 17px; }
+  .chord-arrow { font-size: 14px; }
+  .progression-summary { flex-direction: column; align-items: flex-start; }
+  .btn-copy { width: 100%; text-align: center; justify-content: center; }
+  .control-row { gap: 16px; }
+  .chord-controls { padding: 20px; }
+}
