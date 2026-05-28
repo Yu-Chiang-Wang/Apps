@@ -19,6 +19,18 @@ const ALLOWED_ORIGINS = [
   'null',
 ];
 
+// ===== 角色扮演 System Prompt =====
+// 這裡可以自由修改角色設定；buildPrompt 只負責帶入使用者關鍵字。
+const SYSTEM_ROLE = `\
+你是一位擁有 15 年以上實務經驗的台灣專業會計師（CPA），精通 IFRS 國際財務報導準則與台灣 GAAP。
+你曾服務上市公司、中小企業與新創，擅長依照不同產業客製化財務報表的科目結構與分類方式。
+
+你的工作守則：
+1. 嚴格依照客戶提供的「產業類型」與「特殊需求」關鍵字調整科目名稱與架構。
+2. 輸出必須是可直接匯入 Excel 的完整 JSON 結構，不附加任何說明文字。
+3. 科目命名符合台灣商業慣例，中文清楚易懂。
+4. 若客戶關鍵字與標準科目衝突，優先遵從客戶關鍵字。`;
+
 const TABLE_TYPE_NAMES = {
   income_statement: '損益表',
   balance_sheet: '資產負債表',
@@ -71,6 +83,9 @@ export default {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          systemInstruction: {
+            parts: [{ text: SYSTEM_ROLE }],
+          },
           contents: [{ role: 'user', parts: [{ text: prompt }] }],
           generationConfig: {
             temperature: 0.15,
@@ -162,36 +177,45 @@ function buildPrompt(d) {
   const tableNames = d.tableTypes.map(t => TABLE_TYPE_NAMES[t]).join('、');
   const c = d.currency;
 
-  return `你是專業的台灣會計師，熟悉 IFRS 及台灣 GAAP。請根據以下需求，生成適合的會計表格結構。
+  // ── 使用者關鍵字區塊（這裡的內容直接影響 AI 輸出） ──
+  const keywordBlock = [
+    `公司名稱：${d.companyName}`,
+    `會計期間：${d.period || '本期'}`,
+    `幣別：${c}`,
+    d.industry ? `產業類型（關鍵字）：${d.industry}` : '產業類型：一般企業',
+    d.notes    ? `特殊需求（關鍵字）：${d.notes}`    : null,
+    `需要的報表：${tableNames}`,
+  ].filter(Boolean).join('\n');
 
-公司名稱：${d.companyName}
-會計期間：${d.period || '本期'}
-幣別：${c}${d.industry ? `\n產業類型：${d.industry}` : ''}${d.notes ? `\n特殊需求：${d.notes}` : ''}
-需要的報表：${tableNames}
+  return `請依照以下客戶關鍵字生成會計表格 JSON 結構。
 
-回傳嚴格 JSON（無任何說明文字）：
+【客戶關鍵字】
+${keywordBlock}
+
+【輸出格式】
+回傳嚴格 JSON，無任何說明文字：
 {"sheets":[{"name":"...","type":"...","columns":[...],"rows":[{"type":"...","label":"...","indent":0}]}]}
 
-Row type 說明：
-- "section"：大類標題（如「一、營業收入」），indent=0
-- "item"：細項科目，indent=1（一般）或 indent=2（細分）
+Row type：
+- "section"：大類標題，indent=0
+- "item"：細項科目，indent=1（一般）/ indent=2（細分）
 - "subtotal"：小計，indent=0
 - "total"：合計，indent=0
 - "space"：空白分隔行
 
 各報表 columns 規格（必須完全照此）：
-- 損益表 (income_statement)：["科目","本期金額 (${c})","上期金額 (${c})","增減金額","增減幅度 (%)"]
-- 資產負債表 (balance_sheet)：["科目","本期 (${c})","上期 (${c})"]
-- 現金流量表 (cash_flow)：["科目","本期 (${c})","上期 (${c})"]
-- 月費用分類帳 (monthly_expense)：["費用科目","1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月","合計 (${c})"]
+- income_statement：["科目","本期金額 (${c})","上期金額 (${c})","增減金額","增減幅度 (%)"]
+- balance_sheet：["科目","本期 (${c})","上期 (${c})"]
+- cash_flow：["科目","本期 (${c})","上期 (${c})"]
+- monthly_expense：["費用科目","1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月","合計 (${c})"]
 
-必須包含的科目（依報表類型）：
+必須包含的科目骨幹：
 - 損益表：營業收入→營業成本→毛利→各項費用→營業利益→業外損益→稅前淨利→所得稅→稅後淨利
 - 資產負債表：流動資產→非流動資產→資產總計 / 流動負債→非流動負債→負債總計 / 股東權益→負債及股東權益總計
 - 現金流量表：營業活動→投資活動→融資活動→期初現金→本期淨增減→期末現金
 - 月費用分類帳：人事費用（薪資/勞健保）、租金、水電、辦公費、銷售費、折舊、雜支、費用合計
 
-針對「${d.industry || '一般企業'}」調整常用科目名稱。`;
+重要：優先依照「客戶關鍵字」中的產業類型與特殊需求調整科目，覆蓋上方預設骨幹。`;
 }
 
 function extractText(result) {
