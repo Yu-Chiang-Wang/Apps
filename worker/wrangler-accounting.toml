@@ -1,0 +1,10 @@
+name = "accounting-table"
+main = "accounting-table-worker.js"
+compatibility_date = "2025-01-01"
+
+# 部署指令:
+#   wrangler deploy --config wrangler-accounting.toml
+#   wrangler secret put GEMINI_API_KEY --config wrangler-accounting.toml
+#
+# 部署後 Worker URL: https://accounting-table.<your-subdomain>.workers.dev
+# 部署完成後記得更新 tools/accounting-table/app.js 裡的 API_ENDPOINT

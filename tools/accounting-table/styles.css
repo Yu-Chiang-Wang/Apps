@@ -1,0 +1,395 @@
+/* ===== 會計表格產生器 工具頁樣式 =====
+   依賴根目錄 styles.css(--c-* CSS 變數)
+*/
+
+/* ===== Tool Hero ===== */
+.tool-hero {
+  padding: 56px 0 32px;
+  max-width: 800px;
+}
+.back-link {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--c-text-soft);
+  margin-bottom: 18px;
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--c-red); }
+.tool-hero h1 {
+  font-size: clamp(30px, 4.5vw, 44px);
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--c-navy);
+}
+.tool-hero h1 .accent { color: var(--c-red); }
+.tool-subtitle {
+  font-size: 16px;
+  color: var(--c-text-soft);
+  margin: 0;
+  max-width: 640px;
+}
+
+/* ===== Tool Body ===== */
+.tool-body { padding-bottom: 96px; }
+
+.form-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+/* ===== 表單欄位 ===== */
+.form-fields {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.field-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--c-navy);
+  letter-spacing: 0.01em;
+}
+.field-label em {
+  color: var(--c-red);
+  font-style: normal;
+  margin-left: 2px;
+}
+
+.field input[type="text"],
+.field textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--c-bg);
+  color: var(--c-navy);
+  transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+  resize: vertical;
+  line-height: 1.55;
+}
+.field input[type="text"]::placeholder,
+.field textarea::placeholder { color: #95a3b3; }
+.field input[type="text"]:focus,
+.field textarea:focus {
+  outline: none;
+  background: var(--c-card);
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 4px rgba(69, 123, 157, 0.15);
+}
+
+/* ===== Select ===== */
+.select-wrap {
+  position: relative;
+}
+.select-wrap select {
+  width: 100%;
+  padding: 11px 36px 11px 14px;
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--c-bg);
+  color: var(--c-navy);
+  appearance: none;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.select-wrap::after {
+  content: "▾";
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--c-text-soft);
+  font-size: 13px;
+}
+.select-wrap select:focus {
+  outline: none;
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 4px rgba(69, 123, 157, 0.15);
+}
+
+/* ===== Chip 多選 ===== */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 13px;
+  border: 1px solid var(--c-border);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-text-soft);
+  background: var(--c-soft-tint);
+  cursor: pointer;
+  user-select: none;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+.chip input[type="checkbox"] { display: none; }
+.chip:hover { border-color: var(--c-blue); color: var(--c-blue); }
+.chip:has(input:checked) {
+  background: var(--c-navy);
+  border-color: var(--c-navy);
+  color: var(--c-bg);
+}
+
+/* 自訂期間文字輸入框（在 select 下方展開） */
+#periodCustom {
+  margin-top: 8px;
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid var(--c-border);
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--c-bg);
+  color: var(--c-navy);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  box-sizing: border-box;
+}
+#periodCustom::placeholder { color: #95a3b3; }
+#periodCustom:focus {
+  outline: none;
+  background: var(--c-card);
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 4px rgba(69, 123, 157, 0.15);
+}
+
+/* ===== Buttons ===== */
+.submit-btn {
+  margin-top: 4px;
+  padding: 13px 20px;
+  background: var(--c-navy);
+  color: var(--c-bg);
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, transform 0.05s;
+}
+.submit-btn:hover { background: #15273f; }
+.submit-btn:active { transform: translateY(1px); }
+.submit-btn:disabled { background: #95a3b3; cursor: not-allowed; }
+
+.ghost-btn {
+  padding: 7px 14px;
+  background: var(--c-card);
+  color: var(--c-text-soft);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s;
+}
+.ghost-btn:hover { border-color: var(--c-blue); color: var(--c-blue); }
+
+.form-note {
+  font-size: 12px;
+  color: var(--c-text-soft);
+  margin: 0;
+  text-align: center;
+  line-height: 1.55;
+}
+
+/* ===== Result Pane ===== */
+.result-pane {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+  padding: 28px;
+  position: sticky;
+  top: 84px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Placeholder */
+.result-placeholder {
+  text-align: center;
+  color: var(--c-text-soft);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.placeholder-icon {
+  font-size: 48px;
+  opacity: 0.5;
+}
+.result-placeholder p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--c-navy);
+}
+.placeholder-sub {
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  color: var(--c-text-soft) !important;
+  max-width: 280px;
+  line-height: 1.6;
+}
+
+/* Loading */
+.result-loading {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: var(--c-text-soft);
+}
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--c-border);
+  border-top-color: var(--c-navy);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.result-loading p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--c-navy);
+}
+.loading-sub {
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  color: var(--c-text-soft) !important;
+}
+
+/* Error */
+.result-error {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.error-icon { font-size: 36px; }
+.result-error p {
+  margin: 0;
+  font-size: 14px;
+  color: #c53030;
+}
+
+/* Ready */
+.result-ready {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.result-header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--c-navy);
+}
+
+.sheet-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.sheet-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--c-bg);
+  border-radius: 10px;
+  border: 1px solid var(--c-border);
+}
+.sheet-check {
+  color: #2d8f4e;
+  font-weight: 700;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+.sheet-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-navy);
+  flex: 1;
+}
+.sheet-rows {
+  font-size: 12px;
+  color: var(--c-text-soft);
+}
+
+.download-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 4px;
+}
+.download-btn {
+  width: 100%;
+  padding: 13px 20px;
+  background: var(--c-red);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, transform 0.05s;
+}
+.download-btn:hover { background: #c62f3c; }
+.download-btn:active { transform: translateY(1px); }
+.download-note {
+  font-size: 12px;
+  color: var(--c-text-soft);
+  margin: 0;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 900px) {
+  .form-layout {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .result-pane {
+    position: static;
+    min-height: auto;
+  }
+}
+@media (max-width: 640px) {
+  .tool-hero { padding: 36px 0 24px; }
+  .form-fields, .result-pane { padding: 20px; }
+}

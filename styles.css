@@ -72,9 +72,10 @@ header {
   font-weight: 800;
   font-size: 16px;
 }
-.nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--c-text-soft); }
+.nav-links { display: flex; align-items: center; gap: 28px; font-size: 14px; color: var(--c-text-soft); }
 .nav-links a { transition: color 0.15s; }
 .nav-links a:hover { color: var(--c-red); }
+.nav-github { display: flex; align-items: center; color: var(--c-text-soft); }
 
 /* ===== Hero ===== */
 .hero {

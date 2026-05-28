@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ===== SEO ===== -->
+<title>會計表格產生器 — Yu-Chiang Apps</title>
+<meta name="description" content="輸入公司名稱與需求，AI 自動生成損益表、資產負債表、現金流量表、月費用分類帳——含科目、公式，直接下載 Excel 即用。">
+<meta name="keywords" content="會計表格, Excel, 損益表, 資產負債表, 現金流量表, AI 產生, 會計軟體">
+<meta name="author" content="Yu-Chiang Wang">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://yu-chiang-wang.github.io/Apps/tools/accounting-table/">
+
+<!-- ===== Open Graph ===== -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="會計表格產生器 — Yu-Chiang Apps">
+<meta property="og:description" content="AI 自動生成損益表、資產負債表等會計表格，含科目與公式，直接下載 Excel。">
+<meta property="og:url" content="https://yu-chiang-wang.github.io/Apps/tools/accounting-table/">
+<meta property="og:image" content="https://yu-chiang-wang.github.io/Apps/og-image.png">
+<meta property="og:locale" content="zh_TW">
+
+<!-- ===== Favicon ===== -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231d3557'/><text x='50' y='70' font-size='62' text-anchor='middle' fill='%23f5f5f5' font-family='system-ui' font-weight='800'>Y</text></svg>">
+
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="../../" class="logo">
+      <span class="logo-mark">Y</span>
+      <span>Yu-Chiang Apps</span>
+    </a>
+    <nav class="nav-links">
+      <a href="../../#tools">所有工具</a>
+      <a href="../../#about">關於</a>
+      <a href="mailto:jonathanwang1103@gmail.com">聯絡</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="tool-hero container">
+    <a href="../../" class="back-link">← 回到所有工具</a>
+    <span class="hero-eyebrow">DATA · AI-POWERED · EXCEL</span>
+    <h1>會計表格<span class="accent">產生器</span></h1>
+    <p class="tool-subtitle">描述你的公司與需求，AI 生成損益表、資產負債表、現金流量表或月費用分類帳——含標準科目與公式，直接下載 Excel 即用。</p>
+  </section>
+
+  <section class="container tool-body">
+    <form id="accounting-form" class="form-layout" novalidate>
+
+      <!-- ===== 左側:表單 ===== -->
+      <div class="form-fields">
+
+        <label class="field">
+          <span class="field-label">公司名稱 <em>*</em></span>
+          <input type="text" id="companyName" required placeholder="例:Yu-Chiang 股份有限公司">
+        </label>
+
+        <div class="field">
+          <span class="field-label">會計期間 <em>*</em></span>
+          <div class="select-wrap">
+            <select id="periodSelect">
+              <optgroup label="年度">
+                <option value="2026年度">2026年度</option>
+                <option value="2025年度" selected>2025年度</option>
+                <option value="2024年度">2024年度</option>
+                <option value="2023年度">2023年度</option>
+              </optgroup>
+              <optgroup label="上 / 下半年">
+                <option value="2026年上半年（1–6月）">2026年上半年（1–6月）</option>
+                <option value="2026年下半年（7–12月）">2026年下半年（7–12月）</option>
+                <option value="2025年上半年（1–6月）">2025年上半年（1–6月）</option>
+                <option value="2025年下半年（7–12月）">2025年下半年（7–12月）</option>
+              </optgroup>
+              <optgroup label="季度 2026">
+                <option value="2026 Q1（1–3月）">2026 Q1（1–3月）</option>
+                <option value="2026 Q2（4–6月）">2026 Q2（4–6月）</option>
+                <option value="2026 Q3（7–9月）">2026 Q3（7–9月）</option>
+                <option value="2026 Q4（10–12月）">2026 Q4（10–12月）</option>
+              </optgroup>
+              <optgroup label="季度 2025">
+                <option value="2025 Q1（1–3月）">2025 Q1（1–3月）</option>
+                <option value="2025 Q2（4–6月）">2025 Q2（4–6月）</option>
+                <option value="2025 Q3（7–9月）">2025 Q3（7–9月）</option>
+                <option value="2025 Q4（10–12月）">2025 Q4（10–12月）</option>
+              </optgroup>
+              <option value="__custom__">✏️ 自訂期間（不限日期）</option>
+            </select>
+          </div>
+          <input type="text" id="periodCustom" placeholder="例:2025年3月至2026年8月、自創業至今..." hidden>
+        </div>
+
+        <div class="field">
+          <span class="field-label">幣別</span>
+          <div class="select-wrap">
+            <select id="currency">
+              <option value="NTD" selected>NTD — 新台幣</option>
+              <option value="USD">USD — 美元</option>
+              <option value="EUR">EUR — 歐元</option>
+              <option value="JPY">JPY — 日圓</option>
+              <option value="CNY">CNY — 人民幣</option>
+            </select>
+          </div>
+        </div>
+
+        <label class="field">
+          <span class="field-label">產業類型</span>
+          <input type="text" id="industry" placeholder="例:零售業、製造業、軟體服務、餐飲業...（留空代表一般企業）">
+        </label>
+
+        <div class="field">
+          <span class="field-label">需要的報表 <em>*</em></span>
+          <div class="chip-group" id="table-type-chips">
+            <label class="chip"><input type="checkbox" value="income_statement" checked>損益表</label>
+            <label class="chip"><input type="checkbox" value="balance_sheet" checked>資產負債表</label>
+            <label class="chip"><input type="checkbox" value="cash_flow" checked>現金流量表</label>
+            <label class="chip"><input type="checkbox" value="monthly_expense" checked>月費用分類帳</label>
+          </div>
+        </div>
+
+        <label class="field">
+          <span class="field-label">特殊需求</span>
+          <textarea id="notes" rows="3" placeholder="例:&#10;- 需要加入研發費用科目&#10;- 使用間接法編製現金流量表&#10;- 費用分類要符合電商產業慣例"></textarea>
+        </label>
+
+        <button type="submit" class="submit-btn" id="submit-btn">產生 Excel 表格</button>
+        <p class="form-note">使用 Gemini AI 生成，等待約 10–20 秒。生成後可立即下載 .xlsx 檔案。</p>
+      </div>
+
+      <!-- ===== 右側:結果 ===== -->
+      <aside class="result-pane" id="result-pane">
+        <div class="result-placeholder" id="result-placeholder">
+          <div class="placeholder-icon">📊</div>
+          <p>填好左邊表單，點下「產生 Excel 表格」</p>
+          <p class="placeholder-sub">AI 會根據你的需求生成完整的會計表格結構，直接下載即可在 Excel 或 Google Sheets 使用。</p>
+        </div>
+
+        <div class="result-ready" id="result-ready" hidden>
+          <div class="result-header">
+            <h2>表格已產生</h2>
+          </div>
+          <ul class="sheet-list" id="sheet-list"></ul>
+          <div class="download-area">
+            <button type="button" id="download-btn" class="download-btn">下載 Excel (.xlsx)</button>
+            <p class="download-note">相容 Microsoft Excel、Google Sheets、LibreOffice</p>
+          </div>
+        </div>
+
+        <div class="result-loading" id="result-loading" hidden>
+          <div class="loading-spinner"></div>
+          <p>AI 正在生成會計表格結構...</p>
+          <p class="loading-sub">依選擇的報表數量，約需 10–20 秒</p>
+        </div>
+
+        <div class="result-error" id="result-error" hidden>
+          <div class="error-icon">⚠️</div>
+          <p id="error-msg">產生失敗，請再試一次。</p>
+          <button type="button" id="retry-btn" class="ghost-btn">重試</button>
+        </div>
+      </aside>
+
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Yu-Chiang Apps · 由 <a href="mailto:jonathanwang1103@gmail.com">Yu-Chiang Wang</a> 設計與維護</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
