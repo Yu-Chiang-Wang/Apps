@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PDF 轉圖片 — Yu-Chiang Apps</title>
+<meta name="description" content="把 PDF 每一頁轉成 JPG 或 PNG，完全在瀏覽器本機處理，檔案不上傳任何伺服器。支援指定頁面範圍與解析度，多頁可一鍵打包下載。">
+<meta name="keywords" content="PDF 轉圖片, PDF to JPG, PDF to PNG, PDF 轉檔, 線上 PDF 工具, 瀏覽器 PDF 轉圖">
+<meta name="author" content="Yu-Chiang Wang">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://yu-chiang-wang.github.io/Apps/tools/pdf-to-image/">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="PDF 轉圖片 — Yu-Chiang Apps">
+<meta property="og:description" content="把 PDF 每一頁轉成 JPG 或 PNG，全部在瀏覽器處理，檔案不會上傳。">
+<meta property="og:url" content="https://yu-chiang-wang.github.io/Apps/tools/pdf-to-image/">
+<meta property="og:image" content="https://yu-chiang-wang.github.io/Apps/og-image.png">
+<meta property="og:locale" content="zh_TW">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231d3557'/><text x='50' y='70' font-size='62' text-anchor='middle' fill='%23f5f5f5' font-family='system-ui' font-weight='800'>Y</text></svg>">
+
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="styles.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <a href="../../" class="logo">
+      <span class="logo-mark">Y</span>
+      <span>Yu-Chiang Apps</span>
+    </a>
+    <nav class="nav-links">
+      <a href="../../#tools">所有工具</a>
+      <a href="../../#about">關於</a>
+      <a href="mailto:jonathanwang1103@gmail.com">聯絡</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="tool-hero container">
+    <a href="../../" class="back-link">← 回到所有工具</a>
+    <span class="hero-eyebrow">FILE UTILITY · PDF · LOCAL ONLY</span>
+    <h1>PDF 轉<span class="accent">圖片</span></h1>
+    <p class="tool-subtitle">把 PDF 每一頁轉成 JPG 或 PNG，所有處理都在你的瀏覽器本機完成——檔案不會上傳到任何伺服器。</p>
+  </section>
+
+  <section class="container tool-body">
+
+    <!-- ── Drop Zone ── -->
+    <div id="drop-zone" class="drop-zone card">
+      <input type="file" id="file-input" accept="application/pdf,.pdf" hidden>
+      <div class="drop-zone-inner">
+        <svg class="drop-icon" xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="12" y1="18" x2="12" y2="12"/>
+          <polyline points="9 15 12 12 15 15"/>
+        </svg>
+        <div class="drop-text">
+          <strong>拖曳 PDF 到這裡</strong>
+          <span>或 <button type="button" id="pick-btn" class="link-btn">點此選擇檔案</button></span>
+        </div>
+        <p class="drop-hint">檔案完全在本機處理，不會上傳。最大建議 50 MB / 200 頁。</p>
+      </div>
+    </div>
+
+    <!-- ── File Info (hidden until loaded) ── -->
+    <div id="file-info" class="file-info card" hidden>
+      <div class="file-info-main">
+        <div class="file-icon">📄</div>
+        <div class="file-meta">
+          <strong id="file-name">filename.pdf</strong>
+          <span id="file-detail">— 頁 · — KB</span>
+        </div>
+      </div>
+      <button id="reset-btn" class="btn-ghost" type="button">換一個檔案</button>
+    </div>
+
+    <!-- ── Controls (hidden until loaded) ── -->
+    <div id="controls" class="convert-controls card" hidden>
+      <div class="control-row">
+
+        <div class="control-group">
+          <span class="control-label">格式</span>
+          <div class="segmented-control">
+            <button class="seg-btn active" data-format="png" type="button">PNG</button>
+            <button class="seg-btn" data-format="jpg" type="button">JPG</button>
+          </div>
+        </div>
+
+        <div class="control-group">
+          <span class="control-label">解析度</span>
+          <div class="select-wrap">
+            <select id="scale-select">
+              <option value="1">標準 (72 DPI)</option>
+              <option value="1.5" selected>清晰 (108 DPI)</option>
+              <option value="2">高畫質 (144 DPI)</option>
+              <option value="3">超高畫質 (216 DPI)</option>
+              <option value="4">最高 (288 DPI)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="control-group control-group-grow">
+          <span class="control-label">頁面 <span class="label-hint">(留空 = 全部，例如 1-3, 5)</span></span>
+          <input type="text" id="pages-input" class="text-input" placeholder="全部頁面" autocomplete="off">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── Convert Button ── -->
+    <div id="convert-row" class="generate-row" hidden>
+      <button id="convert-btn" class="btn-generate" type="button">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.5"
+             stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="21 8 21 21 3 21 3 8"/>
+          <rect x="1" y="3" width="22" height="5"/>
+          <line x1="10" y1="12" x2="14" y2="12"/>
+        </svg>
+        <span id="convert-btn-label">開始轉換</span>
+      </button>
+    </div>
+
+    <!-- ── Progress ── -->
+    <div id="progress" class="progress-bar" hidden>
+      <div class="progress-track">
+        <div id="progress-fill" class="progress-fill"></div>
+      </div>
+      <div id="progress-text" class="progress-text">準備中…</div>
+    </div>
+
+    <!-- ── Result Toolbar ── -->
+    <div id="result-toolbar" class="result-toolbar" hidden>
+      <span id="result-summary" class="result-summary"></span>
+      <button id="download-all-btn" class="btn-copy" type="button">下載全部 (ZIP)</button>
+    </div>
+
+    <!-- ── Results Grid ── -->
+    <div id="results" class="results-grid"></div>
+
+    <!-- ── Error message ── -->
+    <div id="error-msg" class="error-msg" hidden></div>
+
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-bottom">
+      <p>© 2026 Yu-Chiang Apps · <a href="../../">所有工具</a> · <a href="mailto:jonathanwang1103@gmail.com">Yu-Chiang Wang</a></p>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

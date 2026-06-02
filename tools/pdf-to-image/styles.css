@@ -1,0 +1,479 @@
+/* ===== PDF 轉圖片 工具頁樣式 =====
+   依賴根目錄 styles.css 的 --c-* CSS 變數
+*/
+
+/* ─── Tool Hero ─────────────────────────────────────────────────────────── */
+.tool-hero {
+  padding: 56px 0 32px;
+  max-width: 800px;
+}
+.back-link {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--c-text-soft);
+  margin-bottom: 18px;
+  transition: color 0.15s;
+}
+.back-link:hover { color: var(--c-red); }
+.tool-hero h1 {
+  font-size: clamp(30px, 4.5vw, 44px);
+  margin: 0 0 16px;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--c-navy);
+}
+.tool-hero h1 .accent { color: var(--c-red); }
+.tool-subtitle {
+  font-size: 16px;
+  color: var(--c-text-soft);
+  margin: 0;
+  max-width: 600px;
+}
+.tool-body { padding-bottom: 96px; }
+
+/* ─── Card Utility ─────────────────────────────────────────────────────── */
+.card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 16px;
+}
+
+/* ─── Drop Zone ────────────────────────────────────────────────────────── */
+.drop-zone {
+  border-style: dashed;
+  border-width: 2px;
+  border-color: var(--c-border);
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  margin-bottom: 24px;
+}
+.drop-zone:hover,
+.drop-zone.dragover {
+  border-color: var(--c-blue);
+  background: #eef4f8;
+}
+.drop-zone-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.drop-icon {
+  color: var(--c-blue);
+}
+.drop-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.drop-text strong {
+  font-size: 18px;
+  color: var(--c-navy);
+  font-weight: 700;
+}
+.drop-text span {
+  font-size: 14px;
+  color: var(--c-text-soft);
+}
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--c-red);
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.link-btn:hover { color: var(--c-navy); }
+.drop-hint {
+  font-size: 12px;
+  color: var(--c-text-soft);
+  margin: 4px 0 0;
+}
+
+/* ─── File Info ─────────────────────────────────────────────────────────── */
+.file-info {
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.file-info-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.file-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+.file-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.file-meta strong {
+  font-size: 15px;
+  color: var(--c-navy);
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 380px;
+}
+.file-meta span {
+  font-size: 12px;
+  color: var(--c-text-soft);
+}
+.btn-ghost {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--c-text-soft);
+  transition: all 0.15s;
+  font-family: inherit;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.btn-ghost:hover {
+  background: var(--c-soft-tint);
+  color: var(--c-navy);
+  border-color: var(--c-text-soft);
+}
+
+/* ─── Controls ─────────────────────────────────────────────────────────── */
+.convert-controls {
+  padding: 24px 28px;
+  margin-bottom: 24px;
+}
+.control-row {
+  display: flex;
+  gap: 24px 32px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.control-group-grow {
+  flex: 1;
+  min-width: 220px;
+}
+.control-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--c-text-soft);
+}
+.label-hint {
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--c-text-soft);
+  opacity: 0.7;
+}
+
+/* select */
+.select-wrap {
+  position: relative;
+}
+.select-wrap::after {
+  content: "▾";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 12px;
+  color: var(--c-text-soft);
+}
+.select-wrap select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 8px 28px 8px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 600;
+  background: var(--c-bg);
+  color: var(--c-navy);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.select-wrap select:focus {
+  outline: none;
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 3px rgba(69,123,157,0.15);
+}
+
+/* text input */
+.text-input {
+  padding: 8px 12px;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 500;
+  background: var(--c-bg);
+  color: var(--c-navy);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  width: 100%;
+}
+.text-input:focus {
+  outline: none;
+  border-color: var(--c-blue);
+  box-shadow: 0 0 0 3px rgba(69,123,157,0.15);
+}
+
+/* segmented control */
+.segmented-control {
+  display: flex;
+  gap: 3px;
+  background: var(--c-soft-tint);
+  padding: 3px;
+  border-radius: 9px;
+}
+.seg-btn {
+  padding: 6px 16px;
+  border: none;
+  background: transparent;
+  border-radius: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--c-text-soft);
+  transition: all 0.15s;
+  font-family: inherit;
+  line-height: 1;
+}
+.seg-btn.active {
+  background: var(--c-navy);
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+.seg-btn:hover:not(.active) {
+  color: var(--c-navy);
+  background: var(--c-border);
+}
+
+/* ─── Generate / Convert Button ─────────────────────────────────────────── */
+.generate-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+.btn-generate {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 36px;
+  background: var(--c-navy);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+  font-family: inherit;
+  letter-spacing: 0.01em;
+}
+.btn-generate:hover {
+  background: var(--c-red);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(230,57,70,0.3);
+}
+.btn-generate:active { transform: translateY(0); }
+.btn-generate:disabled {
+  background: var(--c-text-soft);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+  opacity: 0.7;
+}
+.btn-generate svg { flex-shrink: 0; }
+
+/* ─── Progress ──────────────────────────────────────────────────────────── */
+.progress-bar {
+  margin: -16px 0 32px;
+  padding: 0 4px;
+}
+.progress-track {
+  width: 100%;
+  height: 8px;
+  background: var(--c-soft-tint);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: var(--c-navy);
+  border-radius: 6px;
+  transition: width 0.2s ease;
+}
+.progress-text {
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--c-text-soft);
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ─── Result Toolbar ───────────────────────────────────────────────────── */
+.result-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 14px 20px;
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+}
+.result-summary {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--c-navy);
+}
+.btn-copy {
+  padding: 8px 20px;
+  background: var(--c-soft-tint);
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  color: var(--c-navy);
+  transition: all 0.15s;
+  white-space: nowrap;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+.btn-copy:hover { background: var(--c-navy); color: #fff; border-color: var(--c-navy); }
+.btn-copy:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--c-soft-tint);
+  color: var(--c-text-soft);
+}
+
+/* ─── Results Grid ─────────────────────────────────────────────────────── */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
+.result-card {
+  background: var(--c-card);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.15s, box-shadow 0.15s;
+  animation: cardIn 0.25s ease both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.result-card:hover {
+  border-color: var(--c-sky);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+.result-preview {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: var(--c-soft-tint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.result-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+}
+.result-meta {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  border-top: 1px solid var(--c-border);
+}
+.result-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.result-page {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--c-navy);
+}
+.result-size {
+  font-size: 11px;
+  color: var(--c-text-soft);
+}
+.btn-download {
+  background: var(--c-navy);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+.btn-download:hover { background: var(--c-red); }
+
+/* ─── Error Message ────────────────────────────────────────────────────── */
+.error-msg {
+  margin-top: 20px;
+  padding: 14px 18px;
+  background: rgba(230,57,70,0.08);
+  border: 1px solid rgba(230,57,70,0.25);
+  border-radius: 10px;
+  color: var(--c-red);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* ─── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .drop-zone { padding: 36px 16px; }
+  .file-info { flex-direction: column; align-items: stretch; }
+  .file-info-main { width: 100%; }
+  .file-meta strong { max-width: 100%; }
+  .btn-ghost { width: 100%; }
+  .convert-controls { padding: 20px; }
+  .control-row { gap: 16px; }
+  .control-group-grow { width: 100%; }
+  .result-toolbar { flex-direction: column; align-items: stretch; }
+  .btn-copy { width: 100%; text-align: center; }
+  .results-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+}
