@@ -7,7 +7,7 @@
 // 環境變數:
 //   GEMINI_API_KEY (secret) — 從 https://aistudio.google.com/apikey 取得
 
-const MODEL = 'gemini-2.0-flash';
+const MODEL = 'gemini-3.5-flash';
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent`;
 
 const ALLOWED_ORIGINS = [
@@ -106,20 +106,20 @@ export default {
         },
       });
 
-      let geminiRes = await fetch(`${GEMINI_URL}?key=${env.GEMINI_API_KEY}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: geminiPayload,
-      });
-
-      // Retry once on 429 (rate limit) after a short delay
-      if (geminiRes.status === 429) {
-        await new Promise(r => setTimeout(r, 3000));
+      // Exponential backoff retry: delays 0s → 2s → 6s (3 attempts total)
+      const RETRY_DELAYS = [0, 2000, 6000];
+      let geminiRes;
+      for (let attempt = 0; attempt < RETRY_DELAYS.length; attempt++) {
+        if (RETRY_DELAYS[attempt] > 0) {
+          await new Promise(r => setTimeout(r, RETRY_DELAYS[attempt]));
+        }
         geminiRes = await fetch(`${GEMINI_URL}?key=${env.GEMINI_API_KEY}`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: geminiPayload,
         });
+        if (geminiRes.status !== 429) break;
+        console.warn(`Gemini 429 on attempt ${attempt + 1}/${RETRY_DELAYS.length}`);
       }
 
       if (!geminiRes.ok) {
@@ -127,7 +127,7 @@ export default {
         console.error('Gemini error:', geminiRes.status, errText);
         if (geminiRes.status === 429) {
           return jsonResponse(
-            { error: 'AI 模型請求次數超過限制，請稍等 1 分鐘後再試。' },
+            { error: 'AI 模型請求次數超過限制，請稍等幾分鐘後再試。' },
             429, cors
           );
         }

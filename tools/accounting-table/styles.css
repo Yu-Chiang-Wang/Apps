@@ -2,6 +2,9 @@
    依賴根目錄 styles.css(--c-* CSS 變數)
 */
 
+/* Prevent CSS display rules from overriding the HTML hidden attribute */
+[hidden] { display: none !important; }
+
 /* ===== Tool Hero ===== */
 .tool-hero {
   padding: 56px 0 32px;
