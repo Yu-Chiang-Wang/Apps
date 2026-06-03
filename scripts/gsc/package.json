@@ -7,7 +7,9 @@
   "scripts": {
     "auth": "node auth.js",
     "report": "node report.js",
-    "sites": "node sites.js"
+    "sites": "node sites.js",
+    "submit-sitemap": "node submit-sitemap.js",
+    "sitemaps": "node submit-sitemap.js --list"
   },
   "dependencies": {
     "googleapis": "^144.0.0"
