@@ -1,0 +1,15 @@
+{
+  "name": "yu-chiang-apps-gsc",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Google Search Console scripts for yu-chiang-wang.github.io/Apps",
+  "type": "module",
+  "scripts": {
+    "auth": "node auth.js",
+    "report": "node report.js",
+    "sites": "node sites.js"
+  },
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
+}

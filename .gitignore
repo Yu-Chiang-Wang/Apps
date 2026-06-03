@@ -1,3 +1,7 @@
 worker/.wrangler/
 node_modules/
 .env
+
+# GSC scripts — 不該 commit 的本機產物
+scripts/gsc/.cache/
+*.token.json
