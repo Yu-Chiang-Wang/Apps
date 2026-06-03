@@ -16,7 +16,8 @@ export const TOKEN_PATH  = process.env.GSC_TOKEN_PATH
 export const CONFIG_PATH = path.join(CONFIG_DIR, 'gsc-config.json');
 
 export const SCOPES = [
-  'https://www.googleapis.com/auth/webmasters.readonly',
+  // 完整 webmasters:可讀資料、可提交 sitemap、可管理使用者
+  'https://www.googleapis.com/auth/webmasters',
 ];
 
 export async function loadOAuthClient() {
