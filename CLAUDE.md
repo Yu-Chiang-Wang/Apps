@@ -159,6 +159,6 @@ wrangler deploy --config wrangler.toml              # CLAUDE.md
 ## 部署
 
 GitHub Pages 從 main branch root 自動部署(push 即觸發)。
-- `og-image.png` 尚未製作,需要主視覺後再補
+- `og-image.png`(1200×630)與 `favicon.png`(512×512)放在 root,沿用 Y badge 主視覺;Open Graph / Twitter Card 已指向 `og-image.png`
 - Worker 需另外用 wrangler 手動部署(見上方 Worker 架構)
 - 若使用自訂網域,在 root 放 `CNAME` 並更新 canonical / og:url
