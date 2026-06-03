@@ -2,6 +2,11 @@ worker/.wrangler/
 node_modules/
 .env
 
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+
 # GSC scripts — 不該 commit 的本機產物
 scripts/gsc/.cache/
 *.token.json
